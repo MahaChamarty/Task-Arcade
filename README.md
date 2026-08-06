@@ -148,7 +148,9 @@ This project demonstrates practical knowledge of:
 
 ## Author
 **Sri Mahalakshmi Chamarty**
-Computer Science Engineering (AI & DS)
+
+ B.Tech in Computer Science Engineering (AI & DS)  
+ Passionate about Web Development, AI & Problem Solving  
 
 GitHub: https://github.com/MahaChamarty
 
