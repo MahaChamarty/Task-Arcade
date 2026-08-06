@@ -147,7 +147,7 @@ This project demonstrates practical knowledge of:
 - Gamification Principles
 
 ## Author
-Sri MahaLakshmi Chamarty
+**Sri Mahalakshmi Chamarty**
 Computer Science Engineering (AI & DS)
 
 GitHub: https://github.com/MahaChamarty
