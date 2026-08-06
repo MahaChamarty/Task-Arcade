@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskArcade 🕹️ - Fun To-Do & Boss Battles</title>
+    <meta name="description" content="Turn your daily tasks into a cozy gamer arcade with TaskArcade! Battle Zephyrus the dragon, earn XP, level up, and unlock achievements. Switch between Dark and Light mode.">
+    
+    <!-- CSS & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Header & Gamer Progress Bar -->
+        <header class="app-header">
+            <div class="brand-section">
+                <i class="fa-solid fa-gamepad logo-icon"></i>
+                <h1>TaskArcade</h1>
+            </div>
+
+            <div class="user-progress-bar">
+                <div class="level-badge" id="user-level-badge">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span id="level-display">Level 1</span>
+                </div>
+
+                <div class="xp-container">
+                    <div class="xp-text-info">
+                        <span>XP Progress</span>
+                        <span id="xp-text-display">0 / 150 XP</span>
+                    </div>
+                    <div class="xp-track">
+                        <div class="xp-fill" id="xp-fill-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="streak-pill" id="streak-display">
+                    <i class="fa-solid fa-fire"></i>
+                    <span id="streak-count">1 Day Streak</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="btn-toggle-theme" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
+                <button class="icon-btn" id="btn-toggle-sound" title="Toggle Sound Effects">
+                    <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Weekly Boss Battles Arena Widget 👾 -->
+        <section class="boss-arena-card" id="boss-arena">
+            <div class="boss-header">
+                <div class="boss-title-wrap">
+                    <div class="boss-avatar" id="boss-avatar">🐉</div>
+                    <div class="boss-info">
+                        <h2 id="boss-name">Zephyrus the Procrastination Dragon <span class="weekly-tag">Weekly Boss</span></h2>
+                        <p id="boss-desc">Complete tasks to strike Zephyrus! High Priority = Critical Strike ⚡</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="boss-hp-section">
+                <div class="hp-meta">
+                    <span class="hp-label"><i class="fa-solid fa-heart-pulse"></i> Boss HP</span>
+                    <span class="hp-ascii" id="hp-ascii-text">██████████ 100%</span>
+                </div>
+                <div class="hp-bar-track">
+                    <div class="hp-bar-fill" id="boss-hp-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="boss-defeated-banner" id="boss-defeated-banner" style="display: none;">
+                <i class="fa-solid fa-trophy"></i>
+                <span>VICTORY! Zephyrus Defeated! +300 Bonus XP & Dragon Slayer Badge Earned! 🏆</span>
+            </div>
+        </section>
+
+        <!-- Metrics Overview Grid -->
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon total"><i class="fa-solid fa-list-check"></i></div>
+                <div class="metric-details">
+                    <span class="metric-number" id="stat-total-tasks">0</span>
+                    <span class="metric-label">Total Tasks</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon completed"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="metric-details">
+                    <span class="metric-number" id="stat-completed-tasks">0</span>
+                    <span class="metric-label">Completed</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon pending"><i class="fa-solid fa-clock"></i></div>
+                <div class="metric-details">
+                    <span class="metric-number" id="stat-pending-tasks">0</span>
+                    <span class="metric-label">Pending</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon rate"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="metric-details">
+                    <span class="metric-number" id="stat-completion-rate">0%</span>
+                    <span class="metric-label">Completion Rate</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search, Filter & Control Toolbar -->
+        <section class="controls-section">
+            <div class="search-and-action-row">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search tasks (e.g. assignment)...">
+                </div>
+                <button class="btn-primary" id="btn-open-add-modal">
+                    <i class="fa-solid fa-plus"></i> Add New Task
+                </button>
+            </div>
+
+            <div class="filters-and-sort-row">
+                <div class="filter-pills" id="filter-pills-container">
+                    <button class="filter-pill active" data-filter="all">All</button>
+                    <button class="filter-pill" data-filter="pending">Pending</button>
+                    <button class="filter-pill" data-filter="completed">Completed</button>
+                    <button class="filter-pill" data-filter="high">High Priority</button>
+                    <button class="filter-pill" data-filter="medium">Medium Priority</button>
+                    <button class="filter-pill" data-filter="low">Low Priority</button>
+                </div>
+
+                <div class="secondary-dropdowns">
+                    <select id="category-filter-select" class="select-control">
+                        <option value="all">All Categories</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Work">Work</option>
+                        <option value="Study">Study</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Health">Health</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <select id="sort-select" class="select-control">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="due-date">Due Date</option>
+                        <option value="priority">Priority (High to Low)</option>
+                    </select>
+
+                    <div class="view-toggle-wrap">
+                        <button class="view-btn active" id="view-grid-btn" title="Grid View"><i class="fa-solid fa-border-all"></i></button>
+                        <button class="view-btn" id="view-list-btn" title="List View"><i class="fa-solid fa-list"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tasks Items Grid / List Container -->
+        <main class="tasks-container grid" id="tasks-container">
+            <!-- Dynamic task cards will be rendered here -->
+        </main>
+
+    </div>
+
+    <!-- Add / Edit Task Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 id="modal-title-text">Add New Task</h2>
+                <button class="modal-close" id="btn-close-task-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="modal-task-id" value="">
+
+                <div class="form-group">
+                    <label for="task-title-input">Task Title *</label>
+                    <input type="text" id="task-title-input" class="form-input" placeholder="e.g. Finish Coding Project" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="task-desc-input">Description (Optional)</label>
+                    <textarea id="task-desc-input" class="form-textarea" placeholder="Add extra details, notes, or links..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Priority & Category</label>
+                    <div style="display: flex; gap: 12px;">
+                        <select id="task-priority-input" class="form-select" style="flex: 1;">
+                            <option value="low">Low Priority</option>
+                            <option value="medium" selected>Medium Priority</option>
+                            <option value="high">High Priority ⚡</option>
+                        </select>
+                        <select id="task-category-input" class="form-select" style="flex: 1;">
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Study">Study</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Health">Health</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="task-due-input">Due Date (Optional)</label>
+                    <input type="date" id="task-due-input" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <label>Choose Card Box Theme</label>
+                    <div class="color-swatches" id="color-swatches-container">
+                        <button class="swatch-btn swatch-violet selected" data-color="violet" title="Soft Lilac"></button>
+                        <button class="swatch-btn swatch-cyan" data-color="cyan" title="Soft Cyan"></button>
+                        <button class="swatch-btn swatch-emerald" data-color="emerald" title="Soft Mint"></button>
+                        <button class="swatch-btn swatch-amber" data-color="amber" title="Soft Peach"></button>
+                        <button class="swatch-btn swatch-rose" data-color="rose" title="Coquette Pink"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="btn-cancel-task-modal">Cancel</button>
+                <button class="btn-primary" id="btn-save-task">Save Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal-box" style="max-width: 400px; text-align: center;">
+            <div style="font-size: 3rem; color: #f472b6; margin-bottom: 12px;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h2 style="margin-bottom: 8px;">Delete Task?</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 24px;">Are you sure you want to remove this task from your Arcade list?</p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button class="btn-secondary" id="btn-cancel-delete">Keep Task</button>
+                <button class="btn-danger" id="btn-confirm-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Third Party Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/sound.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
